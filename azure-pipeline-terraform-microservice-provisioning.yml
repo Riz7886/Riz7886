@@ -1,0 +1,27 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger: none
+
+pool:
+ name: TestPool
+ demands:
+ - Agent.OS -equals Linux
+
+steps:
+- task: TerraformTaskV4@4
+  inputs:
+    provider: 'azurerm'
+    command: 'init'
+    backendServiceArm: 'Pay-As-You-Go(4f29d094-1079-44c9-acb0-4d73a7a2dd34)'
+    backendAzureRmResourceGroupName: 'syed007'
+    backendAzureRmStorageAccountName: 'syed007_storage'
+    backendAzureRmContainerName: 'microservice'
+    backendAzureRmKey: 'microservice.state'
+- task: TerraformTaskV4@4
+  inputs:
+    provider: 'azurerm'
+    command: 'apply'
+    environmentServiceNameAzureRM: 'Pay-As-You-Go(4f29d094-1079-44c9-acb0-4d73a7a2dd34)'
